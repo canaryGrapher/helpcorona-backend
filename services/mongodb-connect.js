@@ -12,7 +12,7 @@ const connectDB = async () => {
                 if (error) {
                     throw error;
                 }
-                coronaresourcesdatabase = client.db("beatcorona");
+                coronaresourcesdatabase = client.db("coronaFight");
                 collectionBeds = coronaresourcesdatabase.collection("dataBeds");
                 collectionOxygen = coronaresourcesdatabase.collection("dataOxygen");
                 collectionVentilator = coronaresourcesdatabase.collection("dataVentilator");
