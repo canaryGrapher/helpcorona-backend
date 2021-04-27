@@ -1,0 +1,19 @@
+{
+    "name": "beatcorona",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "mongodb": "^3.6.6"
+    },
+    "scripts": {
+        "predeploy": "cd client && yarn build",
+        "deploy-client": "cd client && serve -s build",
+        "deploy": "yarn server && yarn deploy-client",
+        "client": "cd client && yarn start",
+        "server": "node server.js",
+        "test-server": "nodemon server.js",
+        "test": "yarn server && yarn client"
+    },
+    "author": "Yash Aryan"
+}
