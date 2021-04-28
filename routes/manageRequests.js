@@ -59,13 +59,14 @@ router.get("/view/:apikey", auth, async (req, res) => {
 
 router.put("/close/:apikey/:requestID", auth, async (req, res) => {
     try {
-        const o_id = new ObjectID("608955a7cbdef292b96f5111");
+        const o_id = new ObjectID(req.params.requestID);
         const updateNumber = await collectionRequests.updateOne({ _id: o_id }, {
             $set: {
+
                 closed: true,
                 closedby: `${req.params.apikey}`
             }
-        }, { upsert: true })
+        }, { upsert: false })
         if (updateNumber.modifiedCount === 1) {
             res.send("Updated")
         } else {
