@@ -69,7 +69,7 @@ router.put("/close/:apikey/:requestID", auth, async (req, res) => {
         if (updateNumber.modifiedCount === 1) {
             res.send("Updated")
         } else {
-            res.send("Error")
+            res.send("Already updated")
         }
     } catch (error) {
         console.log(error)
