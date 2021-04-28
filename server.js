@@ -12,8 +12,9 @@ const app = express();
 connectDB();
 
 //Initialize middlewares
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cors())
-app.use(express.json({ extended: false }));
 
 //testing endpoint
 app.get('/', (req, res) => {
@@ -30,6 +31,7 @@ app.use('/api/beds', require('./routes/getBeds'))
 app.use('/api/plasma', require('./routes/getPlasma'))
 app.use('/api/all', require('./routes/getAll'))
 app.use('/api/resources', require('./routes/manageResources'))
+app.use('/api/requests', require('./routes/manageRequests'))
 
 
 app.get('*', (req, res) => {

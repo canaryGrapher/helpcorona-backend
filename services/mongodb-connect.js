@@ -16,7 +16,9 @@ const connectDB = async () => {
                 collectionBeds = coronaresourcesdatabase.collection("dataBeds");
                 collectionOxygen = coronaresourcesdatabase.collection("dataOxygen");
                 collectionVentilator = coronaresourcesdatabase.collection("dataVentilator");
-                collectionPlasma = coronaresourcesdatabase.collection("dataPlasma")
+                collectionPlasma = coronaresourcesdatabase.collection("dataPlasma");
+                collectionRequests = coronaresourcesdatabase.collection("dataRequests");
+                collectionCounter = coronaresourcesdatabase.collection("counter");
             }
         )
 

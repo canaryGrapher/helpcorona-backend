@@ -182,6 +182,9 @@ $RECYCLE.BIN/
 ### yarn ###
 # https://yarnpkg.com/advanced/qa#which-files-should-be-gitignored
 
+yarn.lock
+.pnp.js
+.yarn/
 .yarn/*
 !.yarn/releases
 !.yarn/plugins
