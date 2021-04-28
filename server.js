@@ -29,6 +29,7 @@ app.use('/api/oxygen', require('./routes/getOxygen'))
 app.use('/api/beds', require('./routes/getBeds'))
 app.use('/api/plasma', require('./routes/getPlasma'))
 app.use('/api/all', require('./routes/getAll'))
+app.use('/api/resources', require('./routes/manageResources'))
 
 
 app.get('*', (req, res) => {
