@@ -57,6 +57,26 @@ router.get("/view/:apikey", auth, async (req, res) => {
     }
 })
 
+router.get('/public/view', async (req, res) => {
+    try {
+        const fieldName = "year";
+        // specify an optional query document
+        const query = { closed: false };
+        const recievedData = await collectionRequests.aggregate({ $project : { location : 1, entrynumber : 1, info: 1 } }).toArray();
+        const returnArray = []
+        recievedData.forEach((item) => {
+            if(!item.closed) {
+                returnArray.push(item)
+            }
+        })
+        res.send(returnArray)
+    }
+    catch (error) {
+        console.error(error)
+        res.send("Error")
+    }
+})
+
 router.put("/close/:apikey/:requestID", auth, async (req, res) => {
     try {
         const o_id = new ObjectID(req.params.requestID);

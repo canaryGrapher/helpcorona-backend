@@ -13,7 +13,13 @@ const api_keys = [
         "phone": "+919663516444",
         "email": "mkhanna@outlook.com"
     },
-
+    {
+        "keyID": "3_alpha_4325adsaf76",
+        "firstname": "Manorath",
+        "lastname": "Khanna",
+        "phone": "+919663516444",
+        "email": "mkhanna@outlook.com"
+    }
 ]
 
 module.exports = { api_keys }

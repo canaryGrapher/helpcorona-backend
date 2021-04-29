@@ -116,7 +116,7 @@ router.get("/list/:apikey", auth, async (req, res) => {
     }
 })
 
-router.patch("/close/:apikey/:type/:resourceID", auth, async (req, res) => {
+router.delete("/close/:apikey/:type/:resourceID", auth, async (req, res) => {
     try {
         const o_id = new ObjectID(req.params.resourceID);
         const query = { '_id': o_id }
@@ -124,24 +124,28 @@ router.patch("/close/:apikey/:type/:resourceID", auth, async (req, res) => {
             case "beds":
                 const result1 = await collectionBeds.deleteOne(query)
                 if (result1.deletedCount === 1) {
+                    console.log("Deleted")
                     res.send("Deleted")
                 }
                 break;
             case "ventilators":
                 const result2 = await collectionVentilator.deleteOne(query)
-                if (result1.deletedCount === 1) {
+                if (result2.deletedCount === 1) {
+                    console.log("Deleted")
                     res.send("Deleted")
                 }
                 break;
             case "oxygen":
                 const result3 = await collectionOxygen.deleteOne(query)
-                if (result1.deletedCount === 1) {
+                if (result3.deletedCount === 1) {
+                    console.log("Deleted")
                     res.send("Deleted")
                 }
                 break;
             case "plasma":
                 const result4 = await collectionPlasma.deleteOne(query)
-                if (result1.deletedCount === 1) {
+                if (result4.deletedCount === 1) {
+                    console.log("Deleted")
                     res.send("Deleted")
                 }
                 break;
