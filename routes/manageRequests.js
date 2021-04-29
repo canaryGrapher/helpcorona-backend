@@ -59,16 +59,20 @@ router.get("/view/:apikey", auth, async (req, res) => {
 
 router.get('/public/view', async (req, res) => {
     try {
-        const fieldName = "year";
-        // specify an optional query document
         const query = { closed: false };
-        const recievedData = await collectionRequests.aggregate({ $project : { location : 1, entrynumber : 1, info: 1 } }).toArray();
+        const recievedData = await collectionRequests.find(query).toArray();
         const returnArray = []
         recievedData.forEach((item) => {
             if(!item.closed) {
-                returnArray.push(item)
+                const structure = {
+                    id: item.entrynumber,
+                    location: item.location,
+                    info: item.info
+                }
+                returnArray.push(structure)
             }
         })
+        console.log("Sent")
         res.send(returnArray)
     }
     catch (error) {
