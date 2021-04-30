@@ -68,7 +68,8 @@ router.get('/public/view', async (req, res) => {
                 const structure = {
                     id: item.entrynumber,
                     location: item.location,
-                    info: item.info
+                    info: item.info,
+                    commentcount: item.commentcount
                 }
                 returnArray.push(structure)
             }
