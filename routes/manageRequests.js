@@ -18,7 +18,8 @@ router.post("/add", async (req, res) => {
                     location: req.body.form_response.answers[2].text,
                     info: req.body.form_response.answers[3].text,
                     closed: false,
-                    closedby: null
+                    closedby: null,
+                    commentcount: 0
                 }
                 const result = await collectionRequests.insertOne(entryObject)
                 if (result.insertedCount === 1) {
@@ -94,7 +95,8 @@ router.get('/public/thread/:threadID', async (req, res) => {
                 location: threadDetails.location,
                 info: threadDetails.info,
                 comments: threadDetails.comments,
-                closed: threadDetails.closed
+                closed: threadDetails.closed,
+                commentcount: threadDetails.commentcount
             }
             res.send(returnObject)
         } else {
@@ -103,6 +105,95 @@ router.get('/public/thread/:threadID', async (req, res) => {
 
     } catch (error) {
         console.error(error)
+        res.send("Error")
+    }
+})
+
+router.post('/public/thread/comment/:threadID', async (req, res) => {
+    try {
+        const o_id = new ObjectID("608955a7cbdef292b96f5111");
+        //check if the document exists in the database
+        const counterNumber = await collectionCounter.findOne({ _id: o_id })
+        if (parseInt(req.params.threadID) < counterNumber.requestnumber) {
+            const threadDetails = await collectionRequests.findOne({ entrynumber: parseInt(req.params.threadID) });
+            const entryObject = {
+                commentid: `comment_${threadDetails.commentcount + 1}_${threadDetails._id}`,
+                date: new Date(),
+                comment: req.body.comment,
+                likes: 0,
+                dislikes: 0
+            }
+            threadDetails.comments.unshift(entryObject)
+            threadDetails.commentcount++;
+            const updateThreadProcess = await collectionRequests.replaceOne({ entrynumber: parseInt(req.params.threadID) }, threadDetails, { upsert: false })
+            res.status(200).json(threadDetails)
+        } else {
+            res.send("Error")
+        }
+    } catch (error) {
+        console.log(error)
+        res.send(error)
+    }
+})
+
+router.put('/public/thread/like/:threadID/:commentid', async (req, res) => {
+    try {
+        const o_id = new ObjectID("608955a7cbdef292b96f5111");
+        //check if the document exists in the database
+        const counterNumber = await collectionCounter.findOne({ _id: o_id })
+        if (parseInt(req.params.threadID) < counterNumber.requestnumber) {
+            const threadDetails = await collectionRequests.findOne({ entrynumber: parseInt(req.params.threadID) });
+            const newThreadComments = threadDetails.comments.map((item) => {
+                if (item.commentid == req.params.commentid) {
+                    item.likes += 1
+                    return item
+                } else {
+                    return item
+                }
+            })
+            threadDetails.comments = newThreadComments
+            const updateThreadProcess = await collectionRequests.replaceOne({ entrynumber: parseInt(req.params.threadID) }, threadDetails, { upsert: false })
+            if (updateThreadProcess.modifiedCount === 1) {
+            res.send("Updated")
+            } else {
+                res.send("Error")
+            }
+        } else {
+            res.status(404).send("Thread does not exist")
+        }
+    } catch (error) {
+        console.log(error)
+        res.send("Error")
+    }
+})
+
+router.put('/public/thread/dislike/:threadID/:commentid', async (req, res) => {
+    try {
+        const o_id = new ObjectID("608955a7cbdef292b96f5111");
+        //check if the document exists in the database
+        const counterNumber = await collectionCounter.findOne({ _id: o_id })
+        if (parseInt(req.params.threadID) < counterNumber.requestnumber) {
+            const threadDetails = await collectionRequests.findOne({ entrynumber: parseInt(req.params.threadID) });
+            const newThreadComments = threadDetails.comments.map((item) => {
+                if (item.commentid == req.params.commentid) {
+                    item.dislikes += 1
+                    return item
+                } else {
+                    return item
+                }
+            })
+            threadDetails.comments = newThreadComments
+            const updateThreadProcess = await collectionRequests.replaceOne({ entrynumber: parseInt(req.params.threadID) }, threadDetails, { upsert: false })
+            if (updateThreadProcess.modifiedCount === 1) {
+            res.send("Updated")
+            } else {
+                res.send("Error")
+            }
+        } else {
+            res.status(404).send("Thread does not exist")
+        }
+    } catch (error) {
+        console.log(error)
         res.send("Error")
     }
 })

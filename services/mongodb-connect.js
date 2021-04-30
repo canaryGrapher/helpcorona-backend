@@ -8,17 +8,17 @@ const connectDB = async () => {
             useNewUrlParser: true,
             useUnifiedTopology: true
         },
-            (error, client) => {
+            async (error, client) => {
                 if (error) {
                     throw error;
                 }
                 coronaresourcesdatabase = client.db("coronaFight");
-                collectionBeds = coronaresourcesdatabase.collection("dataBeds");
-                collectionOxygen = coronaresourcesdatabase.collection("dataOxygen");
-                collectionVentilator = coronaresourcesdatabase.collection("dataVentilator");
-                collectionPlasma = coronaresourcesdatabase.collection("dataPlasma");
-                collectionRequests = coronaresourcesdatabase.collection("dataRequests");
-                collectionCounter = coronaresourcesdatabase.collection("counter");
+                collectionBeds = await coronaresourcesdatabase.collection("dataBeds");
+                collectionOxygen = await coronaresourcesdatabase.collection("dataOxygen");
+                collectionVentilator = await coronaresourcesdatabase.collection("dataVentilator");
+                collectionPlasma = await coronaresourcesdatabase.collection("dataPlasma");
+                collectionRequests = await coronaresourcesdatabase.collection("dataRequests");
+                collectionCounter = await coronaresourcesdatabase.collection("counter");
             }
         )
 

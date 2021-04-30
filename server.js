@@ -9,7 +9,10 @@ const PORT = process.env.PORT || 3002;
 
 //conncting to services
 const app = express();
-connectDB();
+const runMongoDB = async () => {
+    await connectDB();
+}
+runMongoDB()
 
 //Initialize middlewares
 app.use(express.urlencoded({ extended: true }));
