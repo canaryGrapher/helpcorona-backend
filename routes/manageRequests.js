@@ -20,7 +20,8 @@ router.post("/add", async (req, res) => {
                     closed: false,
                     closedby: null,
                     commentcount: 0,
-                    comments: []
+                    comments: [],
+                    date: new Date()
                 }
                 const result = await collectionRequests.insertOne(entryObject)
                 if (result.insertedCount === 1) {
@@ -91,7 +92,6 @@ router.get('/public/thread/:threadID', async (req, res) => {
         const counterNumber = await collectionCounter.findOne({ _id: o_id })
         if (req.params.threadID < counterNumber.requestnumber) {
             const threadDetails = await collectionRequests.findOne({ entrynumber: parseInt(req.params.threadID) });
-            console.log(threadDetails)
             const returnObject = {
                 id: threadDetails.entrynumber,
                 location: threadDetails.location,
@@ -128,7 +128,7 @@ router.post('/public/thread/comment/:threadID', async (req, res) => {
             threadDetails.comments.unshift(entryObject)
             threadDetails.commentcount++;
             const updateThreadProcess = await collectionRequests.replaceOne({ entrynumber: parseInt(req.params.threadID) }, threadDetails, { upsert: false })
-            res.status(200).json(threadDetails)
+            res.status(200).send("Post Added")
         } else {
             res.send("Error")
         }
