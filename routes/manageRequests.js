@@ -19,7 +19,8 @@ router.post("/add", async (req, res) => {
                     info: req.body.form_response.answers[3].text,
                     closed: false,
                     closedby: null,
-                    commentcount: 0
+                    commentcount: 0,
+                    comments: []
                 }
                 const result = await collectionRequests.insertOne(entryObject)
                 if (result.insertedCount === 1) {
