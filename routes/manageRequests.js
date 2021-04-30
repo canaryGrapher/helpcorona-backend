@@ -2,6 +2,9 @@ const express = require('express');
 const auth = require('../services/auth')
 const router = express.Router();
 const ObjectID = require('mongodb').ObjectID;
+const { lookup } = require('geoip-lite')
+var axios = require("axios").default;
+const RequestIp = require('@supercharge/request-ip')
 
 router.post("/add", async (req, res) => {
     const o_id = new ObjectID("608955a7cbdef292b96f5111");
@@ -113,6 +116,28 @@ router.get('/public/thread/:threadID', async (req, res) => {
 
 router.post('/public/thread/comment/:threadID', async (req, res) => {
     try {
+        const ip = RequestIp.getClientIp(req)
+        // using IP Geo Location App
+        const response = await axios.get("https://ip-geolocation-ipwhois-io.p.rapidapi.com/json/", {
+            params: {
+                ip: `{ip}`
+            },
+            headers: {
+                'x-rapidapi-key': '35d9997087msh39d2940debc10f8p11d939jsn834547a38d19',
+                'x-rapidapi-host': 'ip-geolocation-ipwhois-io.p.rapidapi.com'
+            }
+        })
+
+        console.log(response.data)
+        const commentSender = {
+            headers: JSON.stringify(req.headers),
+            ip: req.socket.remoteAddress,
+            iplookup: lookup(ip),
+            useragent: req.get('User-Agent'),
+            advancedLookup: response.data
+        }
+        console.log(commentSender)
+        console.log(lookup(req.ip))
         const o_id = new ObjectID("608955a7cbdef292b96f5111");
         //check if the document exists in the database
         const counterNumber = await collectionCounter.findOne({ _id: o_id })
@@ -123,7 +148,8 @@ router.post('/public/thread/comment/:threadID', async (req, res) => {
                 date: new Date(),
                 comment: req.body.comment,
                 likes: 0,
-                dislikes: 0
+                dislikes: 0,
+                creatordetails: commentSender
             }
             threadDetails.comments.unshift(entryObject)
             threadDetails.commentcount++;
@@ -156,7 +182,7 @@ router.put('/public/thread/like/:threadID/:commentid', async (req, res) => {
             threadDetails.comments = newThreadComments
             const updateThreadProcess = await collectionRequests.replaceOne({ entrynumber: parseInt(req.params.threadID) }, threadDetails, { upsert: false })
             if (updateThreadProcess.modifiedCount === 1) {
-            res.send("Updated")
+                res.send("Updated")
             } else {
                 res.send("Error")
             }
@@ -187,7 +213,7 @@ router.put('/public/thread/dislike/:threadID/:commentid', async (req, res) => {
             threadDetails.comments = newThreadComments
             const updateThreadProcess = await collectionRequests.replaceOne({ entrynumber: parseInt(req.params.threadID) }, threadDetails, { upsert: false })
             if (updateThreadProcess.modifiedCount === 1) {
-            res.send("Updated")
+                res.send("Updated")
             } else {
                 res.send("Error")
             }

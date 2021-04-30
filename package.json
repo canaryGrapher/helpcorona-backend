@@ -1,10 +1,13 @@
 {
     "name": "beatcorona",
     "dependencies": {
+        "@supercharge/request-ip": "^1.1.2",
+        "axios": "^0.21.1",
         "cors": "^2.8.5",
         "crypto": "^1.0.1",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
+        "geoip-lite": "^1.4.2",
         "mongodb": "^3.6.6"
     },
     "scripts": {

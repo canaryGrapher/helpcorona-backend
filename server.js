@@ -18,6 +18,7 @@ runMongoDB()
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors())
+app.set('trust proxy', true);
 
 //testing endpoint
 app.get('/', (req, res) => {
