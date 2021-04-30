@@ -79,7 +79,6 @@ router.get('/public/view', async (req, res) => {
                 returnArray.push(structure)
             }
         })
-        console.log("Sent")
         res.send(returnArray)
     }
     catch (error) {
@@ -123,12 +122,11 @@ router.post('/public/thread/comment/:threadID', async (req, res) => {
                 ip: `{ip}`
             },
             headers: {
-                'x-rapidapi-key': '35d9997087msh39d2940debc10f8p11d939jsn834547a38d19',
+                'x-rapidapi-key': `${process.env.API_KEYS}`,
                 'x-rapidapi-host': 'ip-geolocation-ipwhois-io.p.rapidapi.com'
             }
         })
 
-        console.log(response.data)
         const commentSender = {
             headers: JSON.stringify(req.headers),
             ip: req.socket.remoteAddress,
@@ -136,8 +134,6 @@ router.post('/public/thread/comment/:threadID', async (req, res) => {
             useragent: req.get('User-Agent'),
             advancedLookup: response.data
         }
-        console.log(commentSender)
-        console.log(lookup(req.ip))
         const o_id = new ObjectID("608955a7cbdef292b96f5111");
         //check if the document exists in the database
         const counterNumber = await collectionCounter.findOne({ _id: o_id })
@@ -159,7 +155,6 @@ router.post('/public/thread/comment/:threadID', async (req, res) => {
             res.send("Error")
         }
     } catch (error) {
-        console.log(error)
         res.send(error)
     }
 })
@@ -190,7 +185,6 @@ router.put('/public/thread/like/:threadID/:commentid', async (req, res) => {
             res.status(404).send("Thread does not exist")
         }
     } catch (error) {
-        console.log(error)
         res.send("Error")
     }
 })
@@ -221,7 +215,6 @@ router.put('/public/thread/dislike/:threadID/:commentid', async (req, res) => {
             res.status(404).send("Thread does not exist")
         }
     } catch (error) {
-        console.log(error)
         res.send("Error")
     }
 })
@@ -242,7 +235,6 @@ router.put("/close/:apikey/:requestID", auth, async (req, res) => {
             res.send("Already updated")
         }
     } catch (error) {
-        console.log(error)
         res.send(error)
     }
 })
