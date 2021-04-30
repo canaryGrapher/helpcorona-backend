@@ -63,7 +63,7 @@ router.get('/public/view', async (req, res) => {
         const recievedData = await collectionRequests.find(query).toArray();
         const returnArray = []
         recievedData.forEach((item) => {
-            if(!item.closed) {
+            if (!item.closed) {
                 const structure = {
                     id: item.entrynumber,
                     location: item.location,
@@ -76,6 +76,32 @@ router.get('/public/view', async (req, res) => {
         res.send(returnArray)
     }
     catch (error) {
+        console.error(error)
+        res.send("Error")
+    }
+})
+
+router.get('/public/thread/:threadID', async (req, res) => {
+    try {
+        const o_id = new ObjectID("608955a7cbdef292b96f5111");
+        //check if the document exists in the database
+        const counterNumber = await collectionCounter.findOne({ _id: o_id })
+        if (req.params.threadID < counterNumber.requestnumber) {
+            const threadDetails = await collectionRequests.findOne({ entrynumber: parseInt(req.params.threadID) });
+            console.log(threadDetails)
+            const returnObject = {
+                id: threadDetails.entrynumber,
+                location: threadDetails.location,
+                info: threadDetails.info,
+                comments: threadDetails.comments,
+                closed: threadDetails.closed
+            }
+            res.send(returnObject)
+        } else {
+            res.send("Error")
+        }
+
+    } catch (error) {
         console.error(error)
         res.send("Error")
     }
