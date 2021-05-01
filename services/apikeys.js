@@ -14,7 +14,7 @@ const api_keys = [
         "email": "mkhanna1509@gmail.com"
     },
     {
-        "keyID": "3_alpha_64fcdc86f9864775aff586870b13e1b6",
+        "keyID": "3_beta_64fcdc86f9864775aff586870b13e1b6",
         "firstname": "Dhruv",
         "lastname": "Verma",
         "phone": "+917006382694",
