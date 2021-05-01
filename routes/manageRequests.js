@@ -74,7 +74,8 @@ router.get('/public/view', async (req, res) => {
                     id: item.entrynumber,
                     location: item.location,
                     info: item.info,
-                    commentcount: item.commentcount
+                    commentcount: item.commentcount,
+                    timestamp: item.date
                 }
                 returnArray.push(structure)
             }
@@ -100,7 +101,8 @@ router.get('/public/thread/:threadID', async (req, res) => {
                 info: threadDetails.info,
                 comments: threadDetails.comments,
                 closed: threadDetails.closed,
-                commentcount: threadDetails.commentcount
+                commentcount: threadDetails.commentcount,
+                timestamp: threadDetails.date
             }
             res.send(returnObject)
         } else {

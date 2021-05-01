@@ -60,7 +60,7 @@ const api_keys = [
         "firstname": "Sudhanshu",
         "lastname": "Bansal",
         "phone": "+917879863106",
-        "email": "adityabansal223@gmail.com"
+        "email": "sudhanshubansal2801@gmail.com"
     }
 ]
 
