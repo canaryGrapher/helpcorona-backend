@@ -14,7 +14,7 @@ const api_keys = [
         "email": "mkhanna1509@gmail.com"
     },
     {
-        "keyID": "3_beta_64fcdc86f9864775aff586870b13e1b6",
+        "keyID": "3_bravo_64fcdc86f9864775aff586870b13e1b6",
         "firstname": "Dhruv",
         "lastname": "Verma",
         "phone": "+917006382694",
@@ -35,7 +35,7 @@ const api_keys = [
         "email": "govindsraj17@gmail.com"
     },
     {
-        "keyID": "6_alpha_9be327bf4d4c455aa1b2cf4d295ba5a8",
+        "keyID": "6_bravo_9be327bf4d4c455aa1b2cf4d295ba5a8",
         "firstname": "Mahek",
         "lastname": "Jain",
         "phone": "+919074871272",

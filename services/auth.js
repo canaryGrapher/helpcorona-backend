@@ -3,7 +3,7 @@ const API_KEYS = require('./apikeys');
 module.exports = function (req, res, next) {
     //get token from the header
     if (!req.params.apikey) {
-        return res.status(401).json({ msg: 'No APIkeys, authorozition denied' });
+        return res.status(401).json({ msg: 'No keys, authorozition denied' });
     }
     try {
         let selectedUser
