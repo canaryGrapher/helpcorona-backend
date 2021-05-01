@@ -117,7 +117,7 @@ router.post('/public/thread/comment/:threadID', async (req, res) => {
     try {
         const clientIp = requestIp.getClientIp(req);
         // using IP Geo Location App
-        const advancedLookupIP = clientIp.substring(7,ip.length)
+        const advancedLookupIP = clientIp.replace(/^.*:/, '')
         const response = await axios.get("https://ip-geolocation-ipwhois-io.p.rapidapi.com/json/", {
             params: {
                 ip: `${advancedLookupIP}`
