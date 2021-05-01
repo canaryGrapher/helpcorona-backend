@@ -5,6 +5,7 @@ const ObjectID = require('mongodb').ObjectID;
 const { lookup } = require('geoip-lite')
 var axios = require("axios").default;
 const RequestIp = require('@supercharge/request-ip')
+const requestIp = require('request-ip');
 
 router.post("/add", async (req, res) => {
     const o_id = new ObjectID("608955a7cbdef292b96f5111");
@@ -115,11 +116,11 @@ router.get('/public/thread/:threadID', async (req, res) => {
 
 router.post('/public/thread/comment/:threadID', async (req, res) => {
     try {
-        const ip = RequestIp.getClientIp(req)
+        const clientIp = requestIp.getClientIp(req);
         // using IP Geo Location App
         const response = await axios.get("https://ip-geolocation-ipwhois-io.p.rapidapi.com/json/", {
             params: {
-                ip: `{ip}`
+                ip: `{clientIp}`
             },
             headers: {
                 'x-rapidapi-key': `${process.env.API_KEYS}`,
@@ -130,7 +131,7 @@ router.post('/public/thread/comment/:threadID', async (req, res) => {
         const commentSender = {
             headers: JSON.stringify(req.headers),
             ip: req.socket.remoteAddress,
-            iplookup: lookup(ip),
+            iplookup: lookup(clientIp),
             useragent: req.get('User-Agent'),
             advancedLookup: response.data
         }
