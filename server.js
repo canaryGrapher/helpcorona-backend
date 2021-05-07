@@ -29,14 +29,10 @@ app.get('/', (req, res) => {
 });
 
 // Defining routes
-app.use('/api/ventilator', require('./routes/getVentilator'))
-app.use('/api/oxygen', require('./routes/getOxygen'))
-app.use('/api/beds', require('./routes/getBeds'))
-app.use('/api/plasma', require('./routes/getPlasma'))
-app.use('/api/all', require('./routes/getAll'))
 app.use('/api/resources', require('./routes/manageResources'))
 app.use('/api/requests', require('./routes/manageRequests'))
-
+app.use('/api/login', require('./routes/login'))
+app.use('/api/get/', require('./routes/getResources'))
 
 app.get('*', (req, res) => {
     return res.status(404).json({ msg: 'There is nothing to see here' });

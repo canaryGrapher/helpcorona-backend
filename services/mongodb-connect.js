@@ -13,12 +13,10 @@ const connectDB = async () => {
                     throw error;
                 }
                 coronaresourcesdatabase = client.db("coronaFight");
-                collectionBeds = await coronaresourcesdatabase.collection("dataBeds");
-                collectionOxygen = await coronaresourcesdatabase.collection("dataOxygen");
-                collectionVentilator = await coronaresourcesdatabase.collection("dataVentilator");
-                collectionPlasma = await coronaresourcesdatabase.collection("dataPlasma");
-                collectionRequests = await coronaresourcesdatabase.collection("dataRequests");
-                collectionCounter = await coronaresourcesdatabase.collection("counter");
+                collectionRequests = await coronaresourcesdatabase.collection("requests");
+                collectionResources = await coronaresourcesdatabase.collection("resources")
+                collectionUsers = await coronaresourcesdatabase.collection("volunteers")
+                collectionCounter = await coronaresourcesdatabase.collection("counter")
             }
         )
 

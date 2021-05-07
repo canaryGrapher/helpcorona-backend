@@ -1,30 +1,16 @@
-const API_KEYS = require('./apikeys');
+const jwt = require('jsonwebtoken');
 
-module.exports = function (req, res, next) {
+module.exports = (req, res, next) => {
     //get token from the header
-    if (!req.params.apikey) {
-        return res.status(401).json({ msg: 'No keys, authorozition denied' });
+    const token = req.header('x-auth-token');
+    if (!token) {
+        return res.status(401).json({ msg: 'No token, authorozition denied' });
     }
     try {
-        let selectedUser
-        const fetchedObject = API_KEYS.api_keys
-        let volunteerDetails = fetchedObject.forEach(user => {
-            if (user.keyID == req.params.apikey) {
-                selectedUser = user
-                return user
-            }
-        });
-        //clearing the memory after use
-        volunteerDetails = null
-        if (selectedUser) {
-            console.log("Authenticated")
-            next();
-        }
-        else {
-            console.log("Not Authenticated")
-            res.status(401).json({ msg: 'API is not valid' });
-        }
+        const decode = jwt.verify(token, process.env.TOKEN_SECRET);
+        req.user = decode.user;
+        next();
     } catch (err) {
-        res.status(401).json({ msg: 'API is not valid' });
+        res.status(401).json({ msg: 'Token is not valid' });
     }
-};
+}
